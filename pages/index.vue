@@ -1,21 +1,48 @@
 <template>
-  <section class="section">
-    <div class="container">
+<section class="section">
+  <div class="container">
+    <div class="block">
+      <div class="block video-block" v-for="item in items">
+        <AppVideo
+          :item="item"
+          :video-id="item.id"
+        />
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 </template>
 
 <script>
-  import ROUTES from '~/routes/api'
+import ROUTES from '~/routes/api'
+import AppVideo from "~/components/AppVideo";
 
-  export default {
-      // fetchはレンダリング前にストアにデータを設定するために使う。引数からstoreを取り出す
-      async fetch({store}) {
-          const payload = {
-              uri: ROUTES.GET.POPULARS
-          }
+export default {
+    components: {AppVideo},
 
-          await store.dispatch('fetchPopularVideos', payload) // vuexストアのアクションに処理をdispatchする
-      }
+    computed: {
+        items() {
+            return this.$store.getters.getPopularVideos
+        }
+    },
+
+    // fetchはレンダリング前にストアにデータを設定するために使う。引数からstoreを取り出す
+    async fetch({store}) {
+        const payload = {
+            uri: ROUTES.GET.POPULARS
+        }
+
+        if (store.getters.getPopularVideos && store.getters.getPopularVideos.length > 0) {
+            return
+        }
+
+        await store.dispatch('fetchPopularVideos', payload) // vuexストアのアクションに処理をdispatchする
+    }
   }
 </script>
+
+<style scoped>
+  .video-block {
+    max-width: 900px;
+  }
+</style>
