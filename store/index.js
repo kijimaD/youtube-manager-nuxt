@@ -24,4 +24,7 @@ export const getters = {
   getPopularVideos(state) {
     return state.items// Vueコンポーネントからステートを参照するためのゲッタを定義する
   },
+  getMeta(state) {
+    return state.meta
+  },
 }
