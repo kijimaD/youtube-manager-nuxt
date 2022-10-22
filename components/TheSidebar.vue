@@ -4,11 +4,7 @@
       <aside class="menu">
         <ul class="menu-list">
           <li>
-            <nuxt-link
-              to="/"
-              >
-              ホーム
-            </nuxt-link>
+            <nuxt-link to="/"> ホーム </nuxt-link>
           </li>
         </ul>
       </aside>

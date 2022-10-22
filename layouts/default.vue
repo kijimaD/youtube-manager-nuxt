@@ -4,31 +4,31 @@
     <div class="columns">
       <TheSidebar />
       <div class="column content">
-        <nuxt/>
+        <nuxt />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import TheHeader from "~/components/TheHeader";
-  import TheSidebar from "~/components/TheSidebar";
+import TheHeader from "~/components/TheHeader";
+import TheSidebar from "~/components/TheSidebar";
 
 export default {
-    components: {
-        TheHeader,
-        TheSidebar
-    }
-}
+  components: {
+    TheHeader,
+    TheSidebar,
+  },
+};
 </script>
 
 <style scoped>
-  #app {
-    min-height: 100vh;
-    background: #FAFAFA;
-  }
+#app {
+  min-height: 100vh;
+  background: #fafafa;
+}
 
-  .columns {
-    min-height: 100vh;
-  }
+.columns {
+  min-height: 100vh;
+}
 </style>
