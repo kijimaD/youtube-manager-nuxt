@@ -1,30 +1,30 @@
-import {createRequestClient} from '~/store/request-client';
+import { createRequestClient } from "~/store/request-client";
 
 export const state = () => ({
   items: [],
   meta: {},
-})
+});
 
 export const actions = {
-  async fetchPopularVideos({commit}, payload) {
-    const client = createRequestClient(this.$axios) // APIをリクエストするためのリクエストクライアントを作成
-    const res = await client.get(payload.uri, payload.params) // GETリクエストを送信
-    commit('mutatePopularVideos', res) // APIのレスポンスをcommitに渡す
+  async fetchPopularVideos({ commit }, payload) {
+    const client = createRequestClient(this.$axios); // APIをリクエストするためのリクエストクライアントを作成
+    const res = await client.get(payload.uri, payload.params); // GETリクエストを送信
+    commit("mutatePopularVideos", res); // APIのレスポンスをcommitに渡す
   },
-}
+};
 
 export const mutations = {
   mutatePopularVideos(state, payload) {
-    state.items = payload.items ? state.items.concat(payload.items) : [] // ミューテーションではステートにAPIのレスポンスをセットする
-    state.meta = payload
+    state.items = payload.items ? state.items.concat(payload.items) : []; // ミューテーションではステートにAPIのレスポンスをセットする
+    state.meta = payload;
   },
-}
+};
 
 export const getters = {
   getPopularVideos(state) {
-    return state.items// Vueコンポーネントからステートを参照するためのゲッタを定義する
+    return state.items; // Vueコンポーネントからステートを参照するためのゲッタを定義する
   },
   getMeta(state) {
-    return state.meta
+    return state.meta;
   },
-}
+};

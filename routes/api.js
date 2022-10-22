@@ -1,7 +1,7 @@
 export const ROUTES = {
   GET: {
-    POPULARS: '/api/popular',
-  }
+    POPULARS: "/api/popular",
+  },
 };
 
 export default ROUTES;
