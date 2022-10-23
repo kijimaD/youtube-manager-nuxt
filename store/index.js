@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   getIdToken,
+  signOut,
 } from "firebase/auth";
 
 export const state = () => ({
@@ -82,6 +83,15 @@ export const actions = {
 
     this.$cookies.set("jwt_token", token);
     commit("mutateToken", token);
+    this.app.router.push("/");
+  },
+
+  async logout({ commit }) {
+    await signOut(auth);
+    // stateのトークンクリア
+    commit("mutateToken", null);
+    // cookieのトークンクリア
+    this.$cookies.remove("jwt_token");
     this.app.router.push("/");
   },
 };
