@@ -1,5 +1,10 @@
 import { createRequestClient } from "~/store/request-client";
-import firebase from "~/plugins/firebase";
+import auth from "~/plugins/firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 export const state = () => ({
   items: [],
@@ -42,14 +47,14 @@ export const actions = {
 
   async signUp({ commit, dispatch }, payload) {
     /* アカウント作成 */
-    await firebase
-      .auth()
-      .createUserWithEmailAndPassword(payload.email, payload.password);
+    await createUserWithEmailAndPassword(auth, payload.email, payload.password);
 
     // ログイン
-    const res = await firebase
-      .auth()
-      .signInWithEmailAndPassword(payload.email, payload.password);
+    const res = signInWithEmailAndPassword(
+      auth,
+      payload.email,
+      payload.password
+    );
 
     /* サーバーサイドでユーザ認証するときにJWTを使用するため、トークンを取得する */
     const token = await res.user.getIdToken();
