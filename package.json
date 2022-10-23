@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
+    "firebase": "^9.12.1",
     "nuxt": "^2.15.8",
     "nuxt-buefy": "^0.4.24",
     "vue": "^2.7.10",

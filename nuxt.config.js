@@ -18,7 +18,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/vue-youtube"],
+  plugins: [
+    "~/plugins/vue-youtube",
+    "~/plugins/cookies-to-state",
+    "~/plugins/firebase",
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -31,6 +35,7 @@ export default {
     // https://go.nuxtjs.dev/buefy
     "nuxt-buefy",
     "@nuxtjs/axios",
+    "cookie-universal-nuxt",
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

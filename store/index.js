@@ -1,4 +1,5 @@
 import { createRequestClient } from "~/store/request-client";
+import firebase from "~/plugins/firebase";
 
 export const state = () => ({
   items: [],
@@ -7,6 +8,7 @@ export const state = () => ({
   meta: {},
   searchItems: [],
   searchMeta: {},
+  token: "",
 });
 
 /* APIアクセスをする関数。結果をmutate関数を使って保存する */
@@ -37,6 +39,28 @@ export const actions = {
     const res = await client.get(payload.uri, payload.params);
     commit("mutateSearchVideos", res);
   },
+
+  async signUp({ commit, dispatch }, payload) {
+    /* アカウント作成 */
+    await firebase
+      .auth()
+      .createUserWithEmailAndPassword(payload.email, payload.password);
+
+    // ログイン
+    const res = await firebase
+      .auth()
+      .signInWithEmailAndPassword(payload.email, payload.password);
+
+    /* サーバーサイドでユーザ認証するときにJWTを使用するため、トークンを取得する */
+    const token = await res.user.getIdToken();
+    this.$cookies.set("jwt_token", token);
+    commit("mutateToken", token);
+    this.app.router.push("/");
+  },
+
+  async setToken({ commit }, payload) {
+    commit("mutateToken", payload);
+  },
 };
 
 /* stateに保存する関数 */
@@ -61,6 +85,10 @@ export const mutations = {
       ? state.searchItems.concat(payload.items)
       : [];
     state.searchMeta = payload;
+  },
+
+  mutateToken(state, payload) {
+    state.token = payload;
   },
 };
 
