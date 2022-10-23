@@ -5,6 +5,8 @@ export const state = () => ({
   relatedItems: [],
   item: {},
   meta: {},
+  searchItems: [],
+  searchMeta: {},
 });
 
 /* APIアクセスをする関数。結果をmutate関数を使って保存する */
@@ -29,6 +31,12 @@ export const actions = {
     const res = await client.get(payload.uri);
     commit("mutateRelatedVideos", res);
   },
+
+  async searchVideos({ commit }, payload) {
+    const client = createRequestClient(this.$axios);
+    const res = await client.get(payload.uri, payload.params);
+    commit("mutateSearchVideos", res);
+  },
 };
 
 /* stateに保存する関数 */
@@ -47,6 +55,13 @@ export const mutations = {
   mutateRelatedVideos(state, payload) {
     state.relatedItems = payload.items || [];
   },
+
+  mutateSearchVideos(state, payload) {
+    state.searchItems = payload.items
+      ? state.searchItems.concat(payload.items)
+      : [];
+    state.searchMeta = payload;
+  },
 };
 
 /* stateのフィールドにアクセスする関数 */
@@ -62,5 +77,11 @@ export const getters = {
   },
   getRelatedVideos(state) {
     return state.relatedItems;
+  },
+  getSearchVideos(state) {
+    return state.searchItems;
+  },
+  getSearchMeta(state) {
+    return state.searchMeta;
   },
 };
