@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  getIdToken,
 } from "firebase/auth";
 
 export const state = () => ({
@@ -57,7 +58,9 @@ export const actions = {
     );
 
     /* サーバーサイドでユーザ認証するときにJWTを使用するため、トークンを取得する */
-    const token = await res.user.getIdToken();
+    const { currentUser } = auth;
+    const token = await getIdToken(currentUser);
+
     this.$cookies.set("jwt_token", token);
     commit("mutateToken", token);
     this.app.router.push("/");
@@ -65,6 +68,21 @@ export const actions = {
 
   async setToken({ commit }, payload) {
     commit("mutateToken", payload);
+  },
+
+  async login({ commit, dispatch }, payload) {
+    const res = signInWithEmailAndPassword(
+      auth,
+      payload.email,
+      payload.password
+    );
+
+    const { currentUser } = auth;
+    const token = await getIdToken(currentUser);
+
+    this.$cookies.set("jwt_token", token);
+    commit("mutateToken", token);
+    this.app.router.push("/");
   },
 };
 
@@ -116,5 +134,8 @@ export const getters = {
   },
   getSearchMeta(state) {
     return state.searchMeta;
+  },
+  isLoggedIn(state) {
+    return !!state.token;
   },
 };
